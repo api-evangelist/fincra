@@ -1,0 +1,328 @@
+{
+  "info": {
+    "name": "Fincra API",
+    "description": "Fincra cross-border payments API: collections, payouts/disbursements, conversions, quotes, beneficiaries, virtual accounts, and bank/account resolution. Auth via api-key header plus Bearer token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.fincra.com" },
+    { "key": "businessId", "value": "" },
+    { "key": "reference", "value": "" },
+    { "key": "transactionReference", "value": "" },
+    { "key": "customerReference", "value": "" },
+    { "key": "quoteReference", "value": "" },
+    { "key": "beneficiaryId", "value": "" },
+    { "key": "virtualAccountId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "Initiate a charge",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/checkout/charges", "host": ["{{baseUrl}}"], "path": ["checkout", "charges"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1000,\n  \"reference\": \"{{reference}}\",\n  \"currency\": \"NGN\",\n  \"type\": \"bank_transfer\",\n  \"customer\": { \"name\": \"Jane Doe\", \"email\": \"jane@example.com\" }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Authorize a charge",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/checkout/charges/authorize", "host": ["{{baseUrl}}"], "path": ["checkout", "charges", "authorize"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reference\": \"{{reference}}\",\n  \"authorization\": { \"mode\": \"otp\", \"otp\": \"123456\" }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get a charge by reference",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/checkout/charges/{{reference}}", "host": ["{{baseUrl}}"], "path": ["checkout", "charges", "{{reference}}"] }
+          }
+        },
+        {
+          "name": "Verify a charge",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/checkout/charges/verify/{{reference}}", "host": ["{{baseUrl}}"], "path": ["checkout", "charges", "verify", "{{reference}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payouts",
+      "item": [
+        {
+          "name": "Initiate a payout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/disbursements/payouts", "host": ["{{baseUrl}}"], "path": ["disbursements", "payouts"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCurrency\": \"NGN\",\n  \"destinationCurrency\": \"NGN\",\n  \"amount\": \"5000\",\n  \"business\": \"{{businessId}}\",\n  \"description\": \"Payout\",\n  \"customerReference\": \"{{customerReference}}\",\n  \"paymentDestination\": \"bank_account\",\n  \"beneficiary\": {\n    \"accountHolderName\": \"Jane Doe\",\n    \"type\": \"individual\",\n    \"accountNumber\": \"0123456789\",\n    \"bankCode\": \"058\"\n  }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get all payouts",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/disbursements/payouts", "host": ["{{baseUrl}}"], "path": ["disbursements", "payouts"] }
+          }
+        },
+        {
+          "name": "Verify payout by transaction reference",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/disbursements/payouts/reference/{{transactionReference}}", "host": ["{{baseUrl}}"], "path": ["disbursements", "payouts", "reference", "{{transactionReference}}"] }
+          }
+        },
+        {
+          "name": "Verify payout by customer reference",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/disbursements/payouts/customer-reference/{{customerReference}}", "host": ["{{baseUrl}}"], "path": ["disbursements", "payouts", "customer-reference", "{{customerReference}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quotes",
+      "item": [
+        {
+          "name": "Generate a quote",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/quotes/generate", "host": ["{{baseUrl}}"], "path": ["quotes", "generate"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCurrency\": \"USD\",\n  \"destinationCurrency\": \"NGN\",\n  \"amount\": \"100\",\n  \"action\": \"send\",\n  \"transactionType\": \"conversion\",\n  \"business\": \"{{businessId}}\",\n  \"paymentDestination\": \"bank_account\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conversions",
+      "item": [
+        {
+          "name": "Initiate a currency conversion",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/conversions/initiate", "host": ["{{baseUrl}}"], "path": ["conversions", "initiate"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business\": \"{{businessId}}\",\n  \"quoteReference\": \"{{quoteReference}}\",\n  \"customerReference\": \"{{customerReference}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "List all conversions",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/conversions", "host": ["{{baseUrl}}"], "path": ["conversions"] }
+          }
+        },
+        {
+          "name": "Verify conversion status",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/conversions/{{reference}}", "host": ["{{baseUrl}}"], "path": ["conversions", "{{reference}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Beneficiaries",
+      "item": [
+        {
+          "name": "Create a beneficiary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/profile/beneficiaries/business/{{businessId}}", "host": ["{{baseUrl}}"], "path": ["profile", "beneficiaries", "business", "{{businessId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"accountHolderName\": \"Jane Doe\",\n  \"type\": \"individual\",\n  \"currency\": \"NGN\",\n  \"paymentDestination\": \"bank_account\",\n  \"destinationAddress\": \"0123456789\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "List beneficiaries",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/profile/beneficiaries/business/{{businessId}}", "host": ["{{baseUrl}}"], "path": ["profile", "beneficiaries", "business", "{{businessId}}"] }
+          }
+        },
+        {
+          "name": "Fetch a beneficiary",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/profile/beneficiaries/business/{{businessId}}/{{beneficiaryId}}", "host": ["{{baseUrl}}"], "path": ["profile", "beneficiaries", "business", "{{businessId}}", "{{beneficiaryId}}"] }
+          }
+        },
+        {
+          "name": "Update a beneficiary",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/profile/beneficiaries/business/{{businessId}}/{{beneficiaryId}}", "host": ["{{baseUrl}}"], "path": ["profile", "beneficiaries", "business", "{{businessId}}", "{{beneficiaryId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderName\": \"Jane A. Doe\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Delete a beneficiary",
+          "request": {
+            "method": "DELETE",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/profile/beneficiaries/business/{{businessId}}/{{beneficiaryId}}", "host": ["{{baseUrl}}"], "path": ["profile", "beneficiaries", "business", "{{businessId}}", "{{beneficiaryId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Virtual Accounts",
+      "item": [
+        {
+          "name": "Request a virtual account",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/profile/virtual-accounts/requests", "host": ["{{baseUrl}}"], "path": ["profile", "virtual-accounts", "requests"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"NGN\",\n  \"accountType\": \"individual\",\n  \"business\": \"{{businessId}}\",\n  \"KYCInformation\": { \"firstName\": \"Jane\", \"lastName\": \"Doe\", \"bvn\": \"12345678901\" }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "List virtual accounts",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/profile/virtual-accounts/business", "host": ["{{baseUrl}}"], "path": ["profile", "virtual-accounts", "business"] }
+          }
+        },
+        {
+          "name": "Fetch virtual account information",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/profile/virtual-accounts/{{virtualAccountId}}", "host": ["{{baseUrl}}"], "path": ["profile", "virtual-accounts", "{{virtualAccountId}}"] }
+          }
+        },
+        {
+          "name": "List payins into a virtual account",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": { "raw": "{{baseUrl}}/profile/virtual-accounts/{{virtualAccountId}}/payins", "host": ["{{baseUrl}}"], "path": ["profile", "virtual-accounts", "{{virtualAccountId}}", "payins"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Banks & Account Resolution",
+      "item": [
+        {
+          "name": "List banks",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "api-key", "value": "{{apiKey}}" } ],
+            "url": {
+              "raw": "{{baseUrl}}/core/banks?currency=NGN&country=NG",
+              "host": ["{{baseUrl}}"],
+              "path": ["core", "banks"],
+              "query": [
+                { "key": "currency", "value": "NGN" },
+                { "key": "country", "value": "NG" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resolve / verify account number",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/core/accounts/resolve", "host": ["{{baseUrl}}"], "path": ["core", "accounts", "resolve"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountNumber\": \"0123456789\",\n  \"bankCode\": \"058\",\n  \"type\": \"nuban\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

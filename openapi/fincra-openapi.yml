@@ -1,0 +1,1050 @@
+openapi: 3.0.1
+info:
+  title: Fincra API
+  description: >-
+    Fincra is an African cross-border payments infrastructure API for
+    collections, payouts/disbursements, FX conversions, quotes, beneficiaries,
+    virtual accounts, bank/account resolution, and webhooks. Requests are
+    authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+  - url: https://api.fincra.com
+    description: Production
+  - url: https://sandboxapi.fincra.com
+    description: Sandbox
+security:
+  - ApiKeyAuth: []
+    BearerAuth: []
+tags:
+  - name: Collections
+  - name: Payouts
+  - name: Conversions
+  - name: Quotes
+  - name: Beneficiaries
+  - name: Virtual Accounts
+  - name: Banks
+  - name: Account Resolution
+paths:
+  /checkout/charges:
+    post:
+      operationId: initiateCharge
+      tags:
+        - Collections
+      summary: Initiate a charge
+      description: >-
+        Initiate a direct charge to collect a payment via card, bank transfer,
+        mobile money, EFT, or pay-attitude.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeRequest'
+      responses:
+        '200':
+          description: Charge initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /checkout/charges/authorize:
+    post:
+      operationId: authorizeCharge
+      tags:
+        - Collections
+      summary: Authorize a charge
+      description: Authorize a previously initiated charge (e.g. with an OTP or PIN).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizeChargeRequest'
+      responses:
+        '200':
+          description: Charge authorization result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /checkout/charges/{reference}:
+    get:
+      operationId: getChargeByReference
+      tags:
+        - Collections
+      summary: Get a charge by reference
+      parameters:
+        - $ref: '#/components/parameters/Reference'
+      responses:
+        '200':
+          description: Charge details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /checkout/charges/verify/{reference}:
+    get:
+      operationId: verifyCharge
+      tags:
+        - Collections
+      summary: Verify a charge
+      parameters:
+        - $ref: '#/components/parameters/Reference'
+      responses:
+        '200':
+          description: Charge verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /disbursements/payouts:
+    post:
+      operationId: initiatePayout
+      tags:
+        - Payouts
+      summary: Initiate a payout
+      description: >-
+        Disburse funds to a bank account, mobile money wallet, or another Fincra
+        account. Cross-currency payouts require a `quoteReference`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayoutRequest'
+      responses:
+        '200':
+          description: Payout initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      operationId: getAllPayouts
+      tags:
+        - Payouts
+      summary: Get all payouts
+      parameters:
+        - name: business
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of payouts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutListResponse'
+  /disbursements/payouts/reference/{transactionReference}:
+    get:
+      operationId: verifyPayoutByReference
+      tags:
+        - Payouts
+      summary: Verify payout status by transaction reference
+      parameters:
+        - name: transactionReference
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payout status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /disbursements/payouts/customer-reference/{customerReference}:
+    get:
+      operationId: verifyPayoutByCustomerReference
+      tags:
+        - Payouts
+      summary: Verify payout status by customer reference
+      parameters:
+        - name: customerReference
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payout status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /quotes/generate:
+    post:
+      operationId: generateQuote
+      tags:
+        - Quotes
+      summary: Generate a quote
+      description: >-
+        Generate a time-bound FX quote for a conversion or cross-currency
+        payout. Quotes are valid for 30 seconds on cross-currency flows.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+      responses:
+        '200':
+          description: Quote generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /conversions/initiate:
+    post:
+      operationId: initiateConversion
+      tags:
+        - Conversions
+      summary: Initiate a currency conversion
+      description: Convert balance from one currency to another using a quote reference.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversionRequest'
+      responses:
+        '200':
+          description: Conversion initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /conversions:
+    get:
+      operationId: listConversions
+      tags:
+        - Conversions
+      summary: List all conversions
+      parameters:
+        - name: business
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of conversions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionListResponse'
+  /conversions/{reference}:
+    get:
+      operationId: verifyConversion
+      tags:
+        - Conversions
+      summary: Verify conversion status
+      parameters:
+        - $ref: '#/components/parameters/Reference'
+      responses:
+        '200':
+          description: Conversion status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /profile/beneficiaries/business/{businessId}:
+    post:
+      operationId: createBeneficiary
+      tags:
+        - Beneficiaries
+      summary: Create a beneficiary
+      parameters:
+        - $ref: '#/components/parameters/BusinessId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryRequest'
+      responses:
+        '201':
+          description: Beneficiary created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      operationId: listBeneficiaries
+      tags:
+        - Beneficiaries
+      summary: List beneficiaries
+      parameters:
+        - $ref: '#/components/parameters/BusinessId'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of beneficiaries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Beneficiary'
+  /profile/beneficiaries/business/{businessId}/{beneficiaryId}:
+    get:
+      operationId: fetchBeneficiary
+      tags:
+        - Beneficiaries
+      summary: Fetch a beneficiary
+      parameters:
+        - $ref: '#/components/parameters/BusinessId'
+        - $ref: '#/components/parameters/BeneficiaryId'
+      responses:
+        '200':
+          description: Beneficiary details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateBeneficiary
+      tags:
+        - Beneficiaries
+      summary: Update a beneficiary
+      parameters:
+        - $ref: '#/components/parameters/BusinessId'
+        - $ref: '#/components/parameters/BeneficiaryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryRequest'
+      responses:
+        '200':
+          description: Beneficiary updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+    delete:
+      operationId: deleteBeneficiary
+      tags:
+        - Beneficiaries
+      summary: Delete a beneficiary
+      parameters:
+        - $ref: '#/components/parameters/BusinessId'
+        - $ref: '#/components/parameters/BeneficiaryId'
+      responses:
+        '200':
+          description: Beneficiary deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /profile/virtual-accounts/requests:
+    post:
+      operationId: requestVirtualAccount
+      tags:
+        - Virtual Accounts
+      summary: Request a virtual account
+      description: Request an NGN or foreign-currency virtual account for collections.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VirtualAccountRequest'
+      responses:
+        '200':
+          description: Virtual account requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualAccountResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /profile/virtual-accounts/business:
+    get:
+      operationId: listVirtualAccounts
+      tags:
+        - Virtual Accounts
+      summary: List virtual accounts
+      parameters:
+        - name: business
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of virtual accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VirtualAccount'
+  /profile/virtual-accounts/{virtualAccountId}:
+    get:
+      operationId: fetchVirtualAccount
+      tags:
+        - Virtual Accounts
+      summary: Fetch virtual account information
+      parameters:
+        - $ref: '#/components/parameters/VirtualAccountId'
+      responses:
+        '200':
+          description: Virtual account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualAccountResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /profile/virtual-accounts/{virtualAccountId}/payins:
+    get:
+      operationId: listVirtualAccountPayins
+      tags:
+        - Virtual Accounts
+      summary: List payins into a virtual account
+      description: Retrieve all inflows (deposits) made into a virtual account.
+      parameters:
+        - $ref: '#/components/parameters/VirtualAccountId'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of payins
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Payin'
+  /core/banks:
+    get:
+      operationId: listBanks
+      tags:
+        - Banks
+      summary: List banks
+      description: List supported banks and mobile money providers with their codes.
+      parameters:
+        - name: currency
+          in: query
+          schema:
+            type: string
+            default: NGN
+        - name: country
+          in: query
+          schema:
+            type: string
+            default: NG
+      responses:
+        '200':
+          description: List of banks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Bank'
+  /core/accounts/resolve:
+    post:
+      operationId: resolveAccount
+      tags:
+        - Account Resolution
+      summary: Resolve / verify a bank account number
+      description: Verify a bank account number and return the resolved account holder name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveAccountRequest'
+      responses:
+        '200':
+          description: Resolved account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResolveAccountResponse'
+        '422':
+          description: Could not resolve account
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.
+  parameters:
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      schema:
+        type: string
+    BeneficiaryId:
+      name: beneficiaryId
+      in: path
+      required: true
+      schema:
+        type: string
+    VirtualAccountId:
+      name: virtualAccountId
+      in: path
+      required: true
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    Beneficiary:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        accountHolderName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        type:
+          type: string
+          enum: [individual, business]
+        currency:
+          type: string
+        paymentDestination:
+          type: string
+        bank:
+          $ref: '#/components/schemas/BankDetails'
+    BankDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        accountNumber:
+          type: string
+        sortCode:
+          type: string
+    ChargeRequest:
+      type: object
+      required:
+        - amount
+        - reference
+        - currency
+        - type
+        - customer
+      properties:
+        amount:
+          type: integer
+          format: int32
+        reference:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+          enum: [card, bank_transfer, mobile_money, eft, payattitude]
+        customer:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            phoneNumber:
+              type: string
+        card:
+          type: object
+          description: Required when type is card.
+          properties:
+            number:
+              type: string
+            expiryMonth:
+              type: string
+            expiryYear:
+              type: string
+            cvv:
+              type: string
+        phone:
+          type: string
+        description:
+          type: string
+        settlementDestination:
+          type: string
+        callbackUrl:
+          type: string
+        webhookUrl:
+          type: string
+        quoteReference:
+          type: string
+    AuthorizeChargeRequest:
+      type: object
+      required:
+        - reference
+      properties:
+        reference:
+          type: string
+        authorization:
+          type: object
+          properties:
+            mode:
+              type: string
+              enum: [otp, pin]
+            otp:
+              type: string
+            pin:
+              type: string
+    ChargeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            status:
+              type: string
+            amount:
+              type: number
+            currency:
+              type: string
+    PayoutRequest:
+      type: object
+      required:
+        - sourceCurrency
+        - destinationCurrency
+        - amount
+        - business
+        - description
+        - customerReference
+        - paymentDestination
+        - beneficiary
+      properties:
+        sourceCurrency:
+          type: string
+        destinationCurrency:
+          type: string
+        amount:
+          type: string
+        business:
+          type: string
+        description:
+          type: string
+        customerReference:
+          type: string
+        paymentDestination:
+          type: string
+          enum: [bank_account, mobile_money_wallet, fincra]
+        paymentScheme:
+          type: string
+        quoteReference:
+          type: string
+        beneficiary:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            accountHolderName:
+              type: string
+            type:
+              type: string
+              enum: [individual, business]
+            accountNumber:
+              type: string
+            bankCode:
+              type: string
+    PayoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+              enum: [processing, successful, failed]
+            amount:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+    PayoutListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutResponse'
+    QuoteRequest:
+      type: object
+      required:
+        - sourceCurrency
+        - destinationCurrency
+        - amount
+        - action
+        - transactionType
+        - business
+        - paymentDestination
+      properties:
+        sourceCurrency:
+          type: string
+        destinationCurrency:
+          type: string
+        amount:
+          type: string
+        action:
+          type: string
+        transactionType:
+          type: string
+        business:
+          type: string
+        feeBearer:
+          type: string
+        paymentDestination:
+          type: string
+        paymentScheme:
+          type: string
+        beneficiaryType:
+          type: string
+        delay:
+          type: boolean
+    QuoteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            rate:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+    ConversionRequest:
+      type: object
+      required:
+        - business
+        - quoteReference
+        - customerReference
+      properties:
+        business:
+          type: string
+        quoteReference:
+          type: string
+        customerReference:
+          type: string
+    ConversionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+            amount:
+              type: number
+    ConversionListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversionResponse'
+    BeneficiaryRequest:
+      type: object
+      required:
+        - firstName
+        - accountHolderName
+        - type
+        - currency
+        - paymentDestination
+        - destinationAddress
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        accountHolderName:
+          type: string
+        type:
+          type: string
+          enum: [individual, business]
+        currency:
+          type: string
+        paymentDestination:
+          type: string
+        destinationAddress:
+          type: string
+        uniqueIdentifier:
+          type: string
+        bank:
+          $ref: '#/components/schemas/BankDetails'
+        address:
+          type: object
+          properties:
+            line1:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            country:
+              type: string
+    BeneficiaryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Beneficiary'
+    VirtualAccountRequest:
+      type: object
+      required:
+        - currency
+        - accountType
+        - business
+      properties:
+        currency:
+          type: string
+        accountType:
+          type: string
+          enum: [individual, corporate]
+        business:
+          type: string
+        KYCInformation:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            bvn:
+              type: string
+        channel:
+          type: string
+    VirtualAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        accountNumber:
+          type: string
+        accountName:
+          type: string
+        bankName:
+          type: string
+        currency:
+          type: string
+        status:
+          type: string
+    VirtualAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/VirtualAccount'
+    Payin:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        reference:
+          type: string
+        status:
+          type: string
+        sourceAccountName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Bank:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        swiftCode:
+          type: string
+        bic:
+          type: string
+        country:
+          type: string
+    ResolveAccountRequest:
+      type: object
+      required:
+        - accountNumber
+        - type
+      properties:
+        accountNumber:
+          type: string
+        bankCode:
+          type: string
+        bankSwiftCode:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+          enum: [nuban, iban]
+    ResolveAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            accountNumber:
+              type: string
+            accountName:
+              type: string
+            bankCode:
+              type: string

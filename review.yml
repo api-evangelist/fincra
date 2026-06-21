@@ -1,0 +1,94 @@
+aid: fincra
+name: Fincra
+review:
+  question: Does Fincra expose a documented public WebSocket or streaming API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. Fincra's only asynchronous, event-driven
+    surface is outbound HTTP webhooks (server-to-merchant POST callbacks), not a
+    client-subscribable streaming channel. Per current API Evangelist scope,
+    AsyncAPI modeling targets SSE/streaming/WebSocket transports; Fincra exposes
+    none of these. Webhook event types are documented in apis.yml and the
+    OpenAPI as a callback-style integration rather than a streaming API.
+findings:
+  summary: |
+    Fincra publishes a synchronous REST API under https://api.fincra.com
+    (sandbox https://sandboxapi.fincra.com), authenticated with an `api-key`
+    header plus a Bearer access token. There is no documented public WebSocket
+    (ws:// or wss://) endpoint and no Server-Sent Events (SSE) streaming
+    surface. Asynchronous status changes for collections, payouts, conversions,
+    and virtual account events are delivered as outbound HTTP webhook callbacks
+    to a merchant-configured URL, signed for verification. Polling endpoints
+    (verify payout/conversion/charge by reference) complement webhooks.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.fincra.com
+      documented: true
+    - protocol: Webhook
+      scheme: https
+      note: Outbound HTTP POST callbacks to a merchant-configured URL, signed for verification. Server-to-client, not a subscribable stream.
+      documented: true
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events streaming surface is documented.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Fincra's API reference or product pages as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.fincra.com/checkout/charges
+    - POST   https://api.fincra.com/checkout/charges/authorize
+    - GET    https://api.fincra.com/checkout/charges/{reference}
+    - GET    https://api.fincra.com/checkout/charges/verify/{reference}
+    - POST   https://api.fincra.com/disbursements/payouts
+    - GET    https://api.fincra.com/disbursements/payouts
+    - GET    https://api.fincra.com/disbursements/payouts/reference/{transactionReference}
+    - GET    https://api.fincra.com/disbursements/payouts/customer-reference/{customerReference}
+    - POST   https://api.fincra.com/quotes/generate
+    - POST   https://api.fincra.com/conversions/initiate
+    - GET    https://api.fincra.com/conversions
+    - GET    https://api.fincra.com/conversions/{reference}
+    - POST   https://api.fincra.com/profile/beneficiaries/business/{businessId}
+    - GET    https://api.fincra.com/profile/beneficiaries/business/{businessId}
+    - GET    https://api.fincra.com/profile/beneficiaries/business/{businessId}/{beneficiaryId}
+    - PATCH  https://api.fincra.com/profile/beneficiaries/business/{businessId}/{beneficiaryId}
+    - DELETE https://api.fincra.com/profile/beneficiaries/business/{businessId}/{beneficiaryId}
+    - POST   https://api.fincra.com/profile/virtual-accounts/requests
+    - GET    https://api.fincra.com/profile/virtual-accounts/business
+    - GET    https://api.fincra.com/profile/virtual-accounts/{virtualAccountId}
+    - GET    https://api.fincra.com/profile/virtual-accounts/{virtualAccountId}/payins
+    - GET    https://api.fincra.com/core/banks
+    - POST   https://api.fincra.com/core/accounts/resolve
+  webhookEvents:
+    - collection.successful
+    - collection.failed
+    - payout.successful
+    - payout.failed
+    - conversion.successful
+    - conversion.failed
+    - virtualaccount.approved
+sources:
+  - url: https://docs.fincra.com/docs/getting-started
+    type: Documentation
+    note: Overview lists the REST base URL and api-key + Bearer authentication; no WebSocket mentioned.
+  - url: https://docs.fincra.com/llms.txt
+    type: APIReference
+    note: Index of all documented pages and OpenAPI endpoints; all surfaces are HTTPS REST.
+  - url: https://docs.fincra.com/docs/webhooks
+    type: Documentation
+    note: Asynchronous events delivered as signed outbound HTTP POST webhooks, not a subscribable stream.
+  - url: https://docs.fincra.com/reference/generate-quote
+    type: APIReference
+    note: FX quotes are valid ~30 seconds for cross-currency conversions and payouts.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No streaming or WebSocket protocol surface exists. Fincra's only
+    event-driven mechanism is outbound signed HTTP webhooks, which is modeled in
+    apis.yml as a Webhooks API entry rather than an AsyncAPI streaming document.

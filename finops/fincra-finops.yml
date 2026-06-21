@@ -1,0 +1,104 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Fincra
+providerId: fincra
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Payments
+- Cross-Border
+- Collections
+- Payouts
+- FX
+- Fintech
+- Africa
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Fincra spend. Fincra bills usage-based, per-transaction fees
+  across collections (virtual account inflows and direct charges), payouts /
+  disbursements, and FX conversions, where conversion cost is realized through a
+  quoted exchange rate that embeds a spread. Costs scale with transaction count,
+  amount, currency corridor, and payment method rather than fixed subscription
+  tiers. Specific per-transaction rates are commercial and not publicly
+  reconciled here.
+notes: >-
+  Per-transaction fees and FX spreads vary by corridor, currency, method, and
+  negotiated agreement; verify against Fincra invoices and the merchant
+  dashboard during reconciliation.
+sources:
+- https://www.fincra.com/payment-apis
+- https://docs.fincra.com/docs/getting-started
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Fincra
+serviceCategory: Payments and Financial Services
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Per Transaction
+  billingCurrency: Multi-currency (NGN, USD, and other supported currencies)
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Fincra Payments
+  ServiceCategory: Payments and Financial Services
+  ProviderName: Fincra
+  PublisherName: Fincra
+  InvoiceIssuerName: Fincra
+  BillingCurrency: Multi-currency
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: collection_transactions
+  description: Inbound collections via virtual account transfers and direct charges, billed per transaction.
+  unit: transactions
+  aggregation: sum
+  dimensions:
+  - business
+  - currency
+  - paymentMethod
+- name: payout_transactions
+  description: Outbound payouts / disbursements to banks, mobile money, and Fincra accounts, billed per transaction.
+  unit: transactions
+  aggregation: sum
+  dimensions:
+  - business
+  - destinationCurrency
+  - paymentDestination
+- name: conversion_volume
+  description: FX conversion amount; cost realized through the quoted rate spread.
+  unit: currency_units
+  aggregation: sum
+  dimensions:
+  - business
+  - sourceCurrency
+  - destinationCurrency
+- name: fx_spread
+  description: Embedded spread between mid-market and quoted FX rate on conversions and cross-currency payouts.
+  unit: basis_points
+  aggregation: average
+  dimensions:
+  - sourceCurrency
+  - destinationCurrency
+principles:
+- name: Visibility
+  description: Pull Fincra transaction and settlement reports; attribute fees per business, currency, and payment method.
+- name: Allocation
+  description: Tag transactions by customerReference / business to map spend to internal cost centers and corridors.
+- name: Optimization
+  description: Batch and net cross-currency flows, lock favorable quotes within the validity window, and choose lower-fee corridors and payment methods where viable.
+- name: Accountability
+  description: Assign owners per corridor/business; review per-transaction fees and FX spread monthly against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

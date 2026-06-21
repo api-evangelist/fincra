@@ -1,0 +1,214 @@
+aid: fincra
+url: https://raw.githubusercontent.com/api-evangelist/fincra/refs/heads/main/apis.yml
+name: Fincra
+kind: company
+description: Fincra is an African cross-border payments infrastructure provider whose
+  REST API lets businesses collect, hold, convert, and disburse money across multiple
+  currencies. The platform covers collections (virtual accounts and direct charges),
+  payouts/disbursements to banks and mobile money, FX conversions with quotes,
+  beneficiary management, and webhooks, secured with an api-key plus Bearer token.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Payments
+- Cross-Border
+- Collections
+- Payouts
+- FX
+- Fintech
+- Africa
+created: '2026-06-21'
+modified: '2026-06-21'
+specificationVersion: '0.19'
+apis:
+- aid: fincra:fincra-collections-api
+  name: Fincra Collections API
+  tags:
+  - Collections
+  - Pay-ins
+  - Charges
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/docs/collections-overview
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/collections-overview
+    type: Documentation
+  - url: https://docs.fincra.com/reference/initiate-a-charge
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: Receive payments from customers via virtual account bank transfers and
+    the direct charge API (card, bank transfer, mobile money, EFT, pay-attitude),
+    including charge authorization, verification, and deposit lookups.
+- aid: fincra:fincra-payouts-api
+  name: Fincra Payouts / Disbursements API
+  tags:
+  - Payouts
+  - Disbursements
+  - Transfers
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/docs/payout-overview
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/payout-overview
+    type: Documentation
+  - url: https://docs.fincra.com/reference/initiate-payout
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: Disburse funds to bank accounts, mobile money wallets, and other Fincra
+    accounts in same-currency or cross-currency flows, with payout status lookups by
+    transaction reference or customer reference.
+- aid: fincra:fincra-conversions-api
+  name: Fincra Conversions / FX API
+  tags:
+  - Conversions
+  - FX
+  - Currency Exchange
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/docs/conversions
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/conversions
+    type: Documentation
+  - url: https://docs.fincra.com/reference/initiate-currency-conversion
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: Convert balances between supported currencies using a quote reference,
+    list conversions, and verify conversion status. FX quotes are valid for 30 seconds
+    on cross-currency flows.
+- aid: fincra:fincra-quotes-api
+  name: Fincra Quotes API
+  tags:
+  - Quotes
+  - FX Rates
+  - Pricing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/reference/generate-quote
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/conversions
+    type: Documentation
+  - url: https://docs.fincra.com/reference/generate-quote
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: Generate a time-bound FX quote for a conversion or cross-currency payout;
+    the returned quote reference is passed into the conversion or payout request.
+- aid: fincra:fincra-beneficiaries-api
+  name: Fincra Beneficiaries API
+  tags:
+  - Beneficiaries
+  - Recipients
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/reference/create-a-beneficiary
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/beneficiaries
+    type: Documentation
+  - url: https://docs.fincra.com/reference/create-a-beneficiary
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: Create, list, fetch, update, and delete reusable payout beneficiaries
+    scoped to a business, capturing bank, currency, and payment-destination details.
+- aid: fincra:fincra-virtual-accounts-api
+  name: Fincra Virtual Accounts API
+  tags:
+  - Virtual Accounts
+  - Multicurrency
+  - Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/docs/fincra-virtual-accounts
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/fincra-virtual-accounts
+    type: Documentation
+  - url: https://docs.fincra.com/reference/ngn-virtual-account-api
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: Request and manage NGN and foreign-currency virtual accounts that let
+    merchants receive bank-transfer payments, fetch account information, and list
+    payins/deposits made into an account.
+- aid: fincra:fincra-banks-resolution-api
+  name: Fincra Banks & Account Resolution API
+  tags:
+  - Banks
+  - Account Verification
+  - Utilities
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/reference/list-banks
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/verify-iban-and-account-numbers
+    type: Documentation
+  - url: https://docs.fincra.com/reference/list-banks
+    type: APIReference
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  - url: collections/fincra.postman_collection.json
+    type: PostmanCollection
+  - url: collections/fincra.opencollection.json
+    type: OpenCollection
+  description: List supported banks and mobile money providers and resolve/verify a
+    bank account number to its account holder name before disbursing.
+- aid: fincra:fincra-webhooks-api
+  name: Fincra Webhooks
+  tags:
+  - Webhooks
+  - Events
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.fincra.com/docs/webhooks
+  baseURL: https://api.fincra.com
+  properties:
+  - url: https://docs.fincra.com/docs/webhooks
+    type: Documentation
+  - url: https://docs.fincra.com/docs/securing-your-webhook
+    type: Documentation
+  - url: openapi/fincra-openapi.yml
+    type: OpenAPI
+  description: Signed event notifications delivered to a merchant-configured webhook
+    URL for collections, payouts, conversions, and virtual account events, validated
+    via an HMAC signature header.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/fincra
+- type: Website
+  url: https://www.fincra.com
+- type: Documentation
+  url: https://docs.fincra.com
+- type: Plans
+  url: plans/fincra-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/fincra-rate-limits.yml
+- type: FinOps
+  url: finops/fincra-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

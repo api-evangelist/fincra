@@ -1,0 +1,360 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Fincra API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate a charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/checkout/charges",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"amount\": 1000,\n  \"reference\": \"{{reference}}\",\n  \"currency\": \"NGN\",\n  \"type\": \"bank_transfer\",\n  \"customer\": {\n    \"name\": \"Jane Doe\",\n    \"email\": \"jane@example.com\"\n  }\n}"
+            }
+          },
+          "docs": "Initiate a direct charge via card, bank transfer, mobile money, EFT, or pay-attitude."
+        },
+        {
+          "info": {
+            "name": "Authorize a charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/checkout/charges/authorize",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"reference\": \"{{reference}}\",\n  \"authorization\": { \"mode\": \"otp\", \"otp\": \"123456\" }\n}"
+            }
+          },
+          "docs": "Authorize a previously initiated charge with an OTP or PIN."
+        },
+        {
+          "info": {
+            "name": "Get a charge by reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/checkout/charges/{{reference}}"
+          },
+          "docs": "Retrieve a charge by its reference."
+        },
+        {
+          "info": {
+            "name": "Verify a charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/checkout/charges/verify/{{reference}}"
+          },
+          "docs": "Verify the status of a charge."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payouts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate a payout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/disbursements/payouts",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"sourceCurrency\": \"NGN\",\n  \"destinationCurrency\": \"NGN\",\n  \"amount\": \"5000\",\n  \"business\": \"{{businessId}}\",\n  \"description\": \"Payout\",\n  \"customerReference\": \"{{reference}}\",\n  \"paymentDestination\": \"bank_account\",\n  \"beneficiary\": {\n    \"accountHolderName\": \"Jane Doe\",\n    \"type\": \"individual\",\n    \"accountNumber\": \"0123456789\",\n    \"bankCode\": \"058\"\n  }\n}"
+            }
+          },
+          "docs": "Disburse funds to a bank account, mobile money wallet, or Fincra account."
+        },
+        {
+          "info": {
+            "name": "Get all payouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/disbursements/payouts"
+          },
+          "docs": "List all payouts for a business."
+        },
+        {
+          "info": {
+            "name": "Verify payout by transaction reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/disbursements/payouts/reference/{{transactionReference}}"
+          },
+          "docs": "Verify a payout status by its transaction reference."
+        },
+        {
+          "info": {
+            "name": "Verify payout by customer reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/disbursements/payouts/customer-reference/{{customerReference}}"
+          },
+          "docs": "Verify a payout status by your customer reference."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Quotes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/quotes/generate",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"sourceCurrency\": \"USD\",\n  \"destinationCurrency\": \"NGN\",\n  \"amount\": \"100\",\n  \"action\": \"send\",\n  \"transactionType\": \"conversion\",\n  \"business\": \"{{businessId}}\",\n  \"paymentDestination\": \"bank_account\"\n}"
+            }
+          },
+          "docs": "Generate a time-bound FX quote (valid ~30s for cross-currency)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Conversions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate a currency conversion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/conversions/initiate",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"business\": \"{{businessId}}\",\n  \"quoteReference\": \"{{quoteReference}}\",\n  \"customerReference\": \"{{reference}}\"\n}"
+            }
+          },
+          "docs": "Convert balance between currencies using a quote reference."
+        },
+        {
+          "info": {
+            "name": "List all conversions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/conversions"
+          },
+          "docs": "List all conversions for a business."
+        },
+        {
+          "info": {
+            "name": "Verify conversion status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/conversions/{{reference}}"
+          },
+          "docs": "Verify the status of a conversion."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Beneficiaries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/{{businessId}}",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"firstName\": \"Jane\",\n  \"accountHolderName\": \"Jane Doe\",\n  \"type\": \"individual\",\n  \"currency\": \"NGN\",\n  \"paymentDestination\": \"bank_account\",\n  \"destinationAddress\": \"0123456789\"\n}"
+            }
+          },
+          "docs": "Create a reusable payout beneficiary for a business."
+        },
+        {
+          "info": {
+            "name": "List beneficiaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/{{businessId}}"
+          },
+          "docs": "List beneficiaries for a business."
+        },
+        {
+          "info": {
+            "name": "Fetch a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/{{businessId}}/{{beneficiaryId}}"
+          },
+          "docs": "Fetch a single beneficiary by id."
+        },
+        {
+          "info": {
+            "name": "Update a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/{{businessId}}/{{beneficiaryId}}",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"accountHolderName\": \"Jane A. Doe\"\n}"
+            }
+          },
+          "docs": "Update an existing beneficiary."
+        },
+        {
+          "info": {
+            "name": "Delete a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/{{businessId}}/{{beneficiaryId}}"
+          },
+          "docs": "Delete a beneficiary."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Virtual Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Request a virtual account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/profile/virtual-accounts/requests",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"currency\": \"NGN\",\n  \"accountType\": \"individual\",\n  \"business\": \"{{businessId}}\",\n  \"KYCInformation\": {\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Doe\",\n    \"bvn\": \"12345678901\"\n  }\n}"
+            }
+          },
+          "docs": "Request an NGN or foreign-currency virtual account for collections."
+        },
+        {
+          "info": {
+            "name": "List virtual accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/virtual-accounts/business"
+          },
+          "docs": "List virtual accounts for a business."
+        },
+        {
+          "info": {
+            "name": "Fetch virtual account information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/virtual-accounts/{{virtualAccountId}}"
+          },
+          "docs": "Fetch a virtual account by id."
+        },
+        {
+          "info": {
+            "name": "List payins into a virtual account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/virtual-accounts/{{virtualAccountId}}/payins"
+          },
+          "docs": "Retrieve inflows (deposits) made into a virtual account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Banks & Account Resolution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List banks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/core/banks?currency=NGN&country=NG"
+          },
+          "docs": "List supported banks and mobile money providers."
+        },
+        {
+          "info": {
+            "name": "Resolve / verify account number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/core/accounts/resolve",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"accountNumber\": \"0123456789\",\n  \"bankCode\": \"058\",\n  \"type\": \"nuban\"\n}"
+            }
+          },
+          "docs": "Verify a bank account number and resolve the account holder name."
+        }
+      ]
+    }
+  ]
+}

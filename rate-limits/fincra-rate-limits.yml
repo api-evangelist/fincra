@@ -1,0 +1,63 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Fincra
+providerId: fincra
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Payments
+- Cross-Border
+- Collections
+- Payouts
+- FX
+- Fintech
+- Africa
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Fincra exposes a REST API authenticated with an api-key header plus a Bearer
+  token. Fincra does not publish explicit numeric request-per-minute rate limits
+  in its public developer documentation; throttling is enforced at the platform
+  level and limits may vary by environment (sandbox vs production) and merchant
+  agreement. Idempotency for payouts is handled via merchant-supplied
+  customerReference values, and FX quotes are short-lived (valid ~30 seconds for
+  cross-currency flows), which acts as an effective freshness constraint.
+notes: >-
+  Specific numeric throttling thresholds are not documented publicly. Confirm
+  current limits and any per-endpoint quotas with Fincra support during
+  reconciliation. Clients should treat HTTP 429 as throttled and back off.
+sources:
+- https://docs.fincra.com/docs/getting-started
+- https://docs.fincra.com/reference/generate-quote
+- https://www.fincra.com/payment-apis
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests Per Minute (RPM)
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: No public numeric RPM published; platform-level throttling applies.
+- name: Quote Validity Window
+  scope: request
+  metric: seconds
+  limit: 30
+  notes: Cross-currency conversion/payout quotes expire ~30 seconds after generation.
+- name: Sandbox vs Production
+  scope: environment
+  metric: requests
+  limit: varies
+  notes: Sandbox (sandboxapi.fincra.com) limits may differ from production (api.fincra.com).
+policies:
+- name: Idempotency
+  description: Payout and charge requests use merchant-supplied reference / customerReference to avoid duplicate processing.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on HTTP 429 and retryable 5xx responses.
+- name: Quote Freshness
+  description: Regenerate FX quotes if the 30-second cross-currency validity window elapses before initiating the conversion or payout.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

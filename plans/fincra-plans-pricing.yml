@@ -1,0 +1,114 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Fincra
+providerId: fincra
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Payments
+- Cross-Border
+- Collections
+- Payouts
+- FX
+- Fintech
+- Africa
+- Plans
+description: >-
+  Fincra uses a usage-based, per-transaction pricing model rather than fixed
+  monthly subscription tiers. Collections (virtual account inflows and direct
+  charges), payouts/disbursements, and conversions are each priced per
+  transaction, typically as a percentage and/or a flat fee that varies by
+  currency, payment method, corridor, and merchant agreement. FX conversions
+  are priced via a time-bound quoted rate (with an embedded spread). Specific
+  per-transaction rates are negotiated/commercial and are not publicly
+  reconciled in this artifact.
+notes: >-
+  Per-transaction fees are not fully published and vary by corridor, currency,
+  payment method, and negotiated merchant agreement. Confirm current rates with
+  Fincra sales or the merchant dashboard during reconciliation. Values below are
+  structural placeholders, not quoted prices.
+sources:
+- https://www.fincra.com/payment-apis
+- https://docs.fincra.com/docs/getting-started
+- https://www.fincra.com/pricing
+plans:
+- id: fincra-usage
+  name: Pay-as-you-go (Per Transaction)
+  type: usage
+  description: >-
+    Per-transaction pricing across collections, payouts, and conversions with
+    no fixed monthly subscription. Fees vary by currency, method, and corridor.
+  entries:
+  - label: Collections (Virtual Account Inflows)
+    name: collections_virtual_account
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: per-transaction fee (percentage and/or flat; varies by currency) - contact Fincra
+    userMultiplied: false
+  - label: Collections (Direct Charge)
+    name: collections_charge
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: per-transaction fee by payment method (card / bank transfer / mobile money / EFT) - contact Fincra
+    userMultiplied: false
+  - label: Payouts / Disbursements
+    name: payouts
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: per-payout fee (varies by destination currency and corridor) - contact Fincra
+    userMultiplied: false
+  - label: FX Conversions
+    name: conversions
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: quoted FX rate with embedded spread (quote valid ~30s for cross-currency)
+    userMultiplied: false
+  elements:
+  - name: Collections
+  - name: Payouts / Disbursements
+  - name: Conversions / FX
+  - name: Virtual Accounts
+  - name: Beneficiaries
+  - name: Quotes
+- id: fincra-enterprise
+  name: Enterprise / Custom
+  type: enterprise
+  description: >-
+    Negotiated commercial agreement for higher volumes, custom corridors,
+    dedicated support, and tailored per-transaction pricing. Contact Fincra.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Support
+  - name: Custom Corridors
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
