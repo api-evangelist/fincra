@@ -197,6 +197,10 @@ apis:
     URL for collections, payouts, conversions, and virtual account events, validated
     via an HMAC signature header.
 common:
+- type: DomainSecurity
+  url: security/fincra-domain-security.yml
+- type: Authentication
+  url: authentication/fincra-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/fincra
 - type: Website
@@ -209,6 +213,8 @@ common:
   url: rate-limits/fincra-rate-limits.yml
 - type: FinOps
   url: finops/fincra-finops.yml
+- url: https://blog.fincra.com/feed/
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

@@ -1,0 +1,23 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/fincra-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: api-key
+  description: Merchant secret API key.
+  sources:
+  - openapi/fincra-openapi.yml
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer access token issued to the merchant.
+  sources:
+  - openapi/fincra-openapi.yml
