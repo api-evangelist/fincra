@@ -197,6 +197,8 @@ apis:
     URL for collections, payouts, conversions, and virtual account events, validated
     via an HMAC signature header.
 common:
+- type: AgenticAccess
+  url: agentic-access/fincra-agentic-access.yml
 - type: DomainSecurity
   url: security/fincra-domain-security.yml
 - type: Authentication
