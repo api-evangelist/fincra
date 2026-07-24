@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Conversions API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Conversions
+paths:
+  /conversions/initiate:
+    post:
+      operationId: initiateConversion
+      tags:
+      - Conversions
+      summary: Initiate a currency conversion
+      description: Convert balance from one currency to another using a quote reference.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversionRequest'
+      responses:
+        '200':
+          description: Conversion initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /conversions:
+    get:
+      operationId: listConversions
+      tags:
+      - Conversions
+      summary: List all conversions
+      parameters:
+      - name: business
+        in: query
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of conversions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionListResponse'
+  /conversions/{reference}:
+    get:
+      operationId: verifyConversion
+      tags:
+      - Conversions
+      summary: Verify conversion status
+      parameters:
+      - $ref: '#/components/parameters/Reference'
+      responses:
+        '200':
+          description: Conversion status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ConversionListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversionResponse'
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    ConversionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+            amount:
+              type: number
+    ConversionRequest:
+      type: object
+      required:
+      - business
+      - quoteReference
+      - customerReference
+      properties:
+        business:
+          type: string
+        quoteReference:
+          type: string
+        customerReference:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

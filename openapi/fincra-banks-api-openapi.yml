@@ -1,0 +1,78 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Banks API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Banks
+paths:
+  /core/banks:
+    get:
+      operationId: listBanks
+      tags:
+      - Banks
+      summary: List banks
+      description: List supported banks and mobile money providers with their codes.
+      parameters:
+      - name: currency
+        in: query
+        schema:
+          type: string
+          default: NGN
+      - name: country
+        in: query
+        schema:
+          type: string
+          default: NG
+      responses:
+        '200':
+          description: List of banks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Bank'
+components:
+  schemas:
+    Bank:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        swiftCode:
+          type: string
+        bic:
+          type: string
+        country:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

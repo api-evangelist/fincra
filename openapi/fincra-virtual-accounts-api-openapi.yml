@@ -1,0 +1,233 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Virtual Accounts API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Virtual Accounts
+paths:
+  /profile/virtual-accounts/requests:
+    post:
+      operationId: requestVirtualAccount
+      tags:
+      - Virtual Accounts
+      summary: Request a virtual account
+      description: Request an NGN or foreign-currency virtual account for collections.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VirtualAccountRequest'
+      responses:
+        '200':
+          description: Virtual account requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualAccountResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /profile/virtual-accounts/business:
+    get:
+      operationId: listVirtualAccounts
+      tags:
+      - Virtual Accounts
+      summary: List virtual accounts
+      parameters:
+      - name: business
+        in: query
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of virtual accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VirtualAccount'
+  /profile/virtual-accounts/{virtualAccountId}:
+    get:
+      operationId: fetchVirtualAccount
+      tags:
+      - Virtual Accounts
+      summary: Fetch virtual account information
+      parameters:
+      - $ref: '#/components/parameters/VirtualAccountId'
+      responses:
+        '200':
+          description: Virtual account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualAccountResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /profile/virtual-accounts/{virtualAccountId}/payins:
+    get:
+      operationId: listVirtualAccountPayins
+      tags:
+      - Virtual Accounts
+      summary: List payins into a virtual account
+      description: Retrieve all inflows (deposits) made into a virtual account.
+      parameters:
+      - $ref: '#/components/parameters/VirtualAccountId'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of payins
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Payin'
+components:
+  parameters:
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    VirtualAccountId:
+      name: virtualAccountId
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Payin:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        reference:
+          type: string
+        status:
+          type: string
+        sourceAccountName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    VirtualAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        accountNumber:
+          type: string
+        accountName:
+          type: string
+        bankName:
+          type: string
+        currency:
+          type: string
+        status:
+          type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    VirtualAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/VirtualAccount'
+    VirtualAccountRequest:
+      type: object
+      required:
+      - currency
+      - accountType
+      - business
+      properties:
+        currency:
+          type: string
+        accountType:
+          type: string
+          enum:
+          - individual
+          - corporate
+        business:
+          type: string
+        KYCInformation:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            bvn:
+              type: string
+        channel:
+          type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

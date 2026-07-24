@@ -1,0 +1,267 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Beneficiaries API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Beneficiaries
+paths:
+  /profile/beneficiaries/business/{businessId}:
+    post:
+      operationId: createBeneficiary
+      tags:
+      - Beneficiaries
+      summary: Create a beneficiary
+      parameters:
+      - $ref: '#/components/parameters/BusinessId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryRequest'
+      responses:
+        '201':
+          description: Beneficiary created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      operationId: listBeneficiaries
+      tags:
+      - Beneficiaries
+      summary: List beneficiaries
+      parameters:
+      - $ref: '#/components/parameters/BusinessId'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of beneficiaries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Beneficiary'
+  /profile/beneficiaries/business/{businessId}/{beneficiaryId}:
+    get:
+      operationId: fetchBeneficiary
+      tags:
+      - Beneficiaries
+      summary: Fetch a beneficiary
+      parameters:
+      - $ref: '#/components/parameters/BusinessId'
+      - $ref: '#/components/parameters/BeneficiaryId'
+      responses:
+        '200':
+          description: Beneficiary details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateBeneficiary
+      tags:
+      - Beneficiaries
+      summary: Update a beneficiary
+      parameters:
+      - $ref: '#/components/parameters/BusinessId'
+      - $ref: '#/components/parameters/BeneficiaryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryRequest'
+      responses:
+        '200':
+          description: Beneficiary updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryResponse'
+    delete:
+      operationId: deleteBeneficiary
+      tags:
+      - Beneficiaries
+      summary: Delete a beneficiary
+      parameters:
+      - $ref: '#/components/parameters/BusinessId'
+      - $ref: '#/components/parameters/BeneficiaryId'
+      responses:
+        '200':
+          description: Beneficiary deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Beneficiary:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        accountHolderName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        type:
+          type: string
+          enum:
+          - individual
+          - business
+        currency:
+          type: string
+        paymentDestination:
+          type: string
+        bank:
+          $ref: '#/components/schemas/BankDetails'
+    BeneficiaryRequest:
+      type: object
+      required:
+      - firstName
+      - accountHolderName
+      - type
+      - currency
+      - paymentDestination
+      - destinationAddress
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        accountHolderName:
+          type: string
+        type:
+          type: string
+          enum:
+          - individual
+          - business
+        currency:
+          type: string
+        paymentDestination:
+          type: string
+        destinationAddress:
+          type: string
+        uniqueIdentifier:
+          type: string
+        bank:
+          $ref: '#/components/schemas/BankDetails'
+        address:
+          type: object
+          properties:
+            line1:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            country:
+              type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    BankDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        accountNumber:
+          type: string
+        sortCode:
+          type: string
+    BeneficiaryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Beneficiary'
+  parameters:
+    BeneficiaryId:
+      name: beneficiaryId
+      in: path
+      required: true
+      schema:
+        type: string
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

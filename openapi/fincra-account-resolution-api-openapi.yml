@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Account Resolution
+paths:
+  /core/accounts/resolve:
+    post:
+      operationId: resolveAccount
+      tags:
+      - Account Resolution
+      summary: Resolve / verify a bank account number
+      description: Verify a bank account number and return the resolved account holder name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveAccountRequest'
+      responses:
+        '200':
+          description: Resolved account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResolveAccountResponse'
+        '422':
+          description: Could not resolve account
+components:
+  schemas:
+    ResolveAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            accountNumber:
+              type: string
+            accountName:
+              type: string
+            bankCode:
+              type: string
+    ResolveAccountRequest:
+      type: object
+      required:
+      - accountNumber
+      - type
+      properties:
+        accountNumber:
+          type: string
+        bankCode:
+          type: string
+        bankSwiftCode:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+          enum:
+          - nuban
+          - iban
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

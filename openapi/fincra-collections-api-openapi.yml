@@ -1,0 +1,233 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Collections API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Collections
+paths:
+  /checkout/charges:
+    post:
+      operationId: initiateCharge
+      tags:
+      - Collections
+      summary: Initiate a charge
+      description: Initiate a direct charge to collect a payment via card, bank transfer, mobile money, EFT, or pay-attitude.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargeRequest'
+      responses:
+        '200':
+          description: Charge initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /checkout/charges/authorize:
+    post:
+      operationId: authorizeCharge
+      tags:
+      - Collections
+      summary: Authorize a charge
+      description: Authorize a previously initiated charge (e.g. with an OTP or PIN).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizeChargeRequest'
+      responses:
+        '200':
+          description: Charge authorization result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /checkout/charges/{reference}:
+    get:
+      operationId: getChargeByReference
+      tags:
+      - Collections
+      summary: Get a charge by reference
+      parameters:
+      - $ref: '#/components/parameters/Reference'
+      responses:
+        '200':
+          description: Charge details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /checkout/charges/verify/{reference}:
+    get:
+      operationId: verifyCharge
+      tags:
+      - Collections
+      summary: Verify a charge
+      parameters:
+      - $ref: '#/components/parameters/Reference'
+      responses:
+        '200':
+          description: Charge verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargeResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ChargeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            status:
+              type: string
+            amount:
+              type: number
+            currency:
+              type: string
+    AuthorizeChargeRequest:
+      type: object
+      required:
+      - reference
+      properties:
+        reference:
+          type: string
+        authorization:
+          type: object
+          properties:
+            mode:
+              type: string
+              enum:
+              - otp
+              - pin
+            otp:
+              type: string
+            pin:
+              type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    ChargeRequest:
+      type: object
+      required:
+      - amount
+      - reference
+      - currency
+      - type
+      - customer
+      properties:
+        amount:
+          type: integer
+          format: int32
+        reference:
+          type: string
+        currency:
+          type: string
+        type:
+          type: string
+          enum:
+          - card
+          - bank_transfer
+          - mobile_money
+          - eft
+          - payattitude
+        customer:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            phoneNumber:
+              type: string
+        card:
+          type: object
+          description: Required when type is card.
+          properties:
+            number:
+              type: string
+            expiryMonth:
+              type: string
+            expiryYear:
+              type: string
+            cvv:
+              type: string
+        phone:
+          type: string
+        description:
+          type: string
+        settlementDestination:
+          type: string
+        callbackUrl:
+          type: string
+        webhookUrl:
+          type: string
+        quoteReference:
+          type: string
+  parameters:
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

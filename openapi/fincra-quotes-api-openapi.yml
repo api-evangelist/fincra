@@ -1,0 +1,122 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Quotes API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Quotes
+paths:
+  /quotes/generate:
+    post:
+      operationId: generateQuote
+      tags:
+      - Quotes
+      summary: Generate a quote
+      description: Generate a time-bound FX quote for a conversion or cross-currency payout. Quotes are valid for 30 seconds on cross-currency flows.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+      responses:
+        '200':
+          description: Quote generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    QuoteRequest:
+      type: object
+      required:
+      - sourceCurrency
+      - destinationCurrency
+      - amount
+      - action
+      - transactionType
+      - business
+      - paymentDestination
+      properties:
+        sourceCurrency:
+          type: string
+        destinationCurrency:
+          type: string
+        amount:
+          type: string
+        action:
+          type: string
+        transactionType:
+          type: string
+        business:
+          type: string
+        feeBearer:
+          type: string
+        paymentDestination:
+          type: string
+        paymentScheme:
+          type: string
+        beneficiaryType:
+          type: string
+        delay:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    QuoteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            rate:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.

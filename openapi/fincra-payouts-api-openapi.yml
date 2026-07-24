@@ -1,0 +1,237 @@
+openapi: 3.0.1
+info:
+  title: Fincra Account Resolution Payouts API
+  description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
+  termsOfService: https://www.fincra.com/terms
+  contact:
+    name: Fincra Support
+    email: support@fincra.com
+    url: https://docs.fincra.com
+  version: '1.0'
+servers:
+- url: https://api.fincra.com
+  description: Production
+- url: https://sandboxapi.fincra.com
+  description: Sandbox
+security:
+- ApiKeyAuth: []
+  BearerAuth: []
+tags:
+- name: Payouts
+paths:
+  /disbursements/payouts:
+    post:
+      operationId: initiatePayout
+      tags:
+      - Payouts
+      summary: Initiate a payout
+      description: Disburse funds to a bank account, mobile money wallet, or another Fincra account. Cross-currency payouts require a `quoteReference`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayoutRequest'
+      responses:
+        '200':
+          description: Payout initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      operationId: getAllPayouts
+      tags:
+      - Payouts
+      summary: Get all payouts
+      parameters:
+      - name: business
+        in: query
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: List of payouts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutListResponse'
+  /disbursements/payouts/reference/{transactionReference}:
+    get:
+      operationId: verifyPayoutByReference
+      tags:
+      - Payouts
+      summary: Verify payout status by transaction reference
+      parameters:
+      - name: transactionReference
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Payout status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /disbursements/payouts/customer-reference/{customerReference}:
+    get:
+      operationId: verifyPayoutByCustomerReference
+      tags:
+      - Payouts
+      summary: Verify payout status by customer reference
+      parameters:
+      - name: customerReference
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Payout status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayoutResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    PayoutListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutResponse'
+    PayoutRequest:
+      type: object
+      required:
+      - sourceCurrency
+      - destinationCurrency
+      - amount
+      - business
+      - description
+      - customerReference
+      - paymentDestination
+      - beneficiary
+      properties:
+        sourceCurrency:
+          type: string
+        destinationCurrency:
+          type: string
+        amount:
+          type: string
+        business:
+          type: string
+        description:
+          type: string
+        customerReference:
+          type: string
+        paymentDestination:
+          type: string
+          enum:
+          - bank_account
+          - mobile_money_wallet
+          - fincra
+        paymentScheme:
+          type: string
+        quoteReference:
+          type: string
+        beneficiary:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            accountHolderName:
+              type: string
+            type:
+              type: string
+              enum:
+              - individual
+              - business
+            accountNumber:
+              type: string
+            bankCode:
+              type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    PayoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+              enum:
+              - processing
+              - successful
+              - failed
+            amount:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Merchant secret API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer access token issued to the merchant.
