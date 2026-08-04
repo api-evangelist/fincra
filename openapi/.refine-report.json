@@ -1,0 +1,28 @@
+{
+  "provider": "fincra",
+  "sources": [
+    "fincra-account-resolution-api-openapi.yml",
+    "fincra-banks-api-openapi.yml",
+    "fincra-beneficiaries-api-openapi.yml",
+    "fincra-collections-api-openapi.yml",
+    "fincra-conversions-api-openapi.yml",
+    "fincra-payouts-api-openapi.yml",
+    "fincra-quotes-api-openapi.yml",
+    "fincra-virtual-accounts-api-openapi.yml"
+  ],
+  "outputs": [
+    "fincra-account-resolution-api-openapi.yml",
+    "fincra-banks-api-openapi.yml",
+    "fincra-beneficiaries-api-openapi.yml",
+    "fincra-collections-api-openapi.yml",
+    "fincra-conversions-api-openapi.yml",
+    "fincra-payouts-api-openapi.yml",
+    "fincra-quotes-api-openapi.yml",
+    "fincra-virtual-accounts-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
