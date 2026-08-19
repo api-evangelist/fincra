@@ -1,0 +1,149 @@
+{
+  "item": [
+    {
+      "id": "d338823e-66f3-4fb0-82f3-86c7892d7bde",
+      "name": "Banks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e01dfd6-be83-4285-ace9-621744b286aa",
+          "name": "List banks",
+          "request": {
+            "name": "List banks",
+            "description": {
+              "content": "List supported banks and mobile money providers with their codes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "core",
+                "banks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "NGN"
+                },
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "NG"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cbece463-a5f3-41ee-b6e7-a9e54316441c",
+              "name": "List of banks",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "core",
+                    "banks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "currency",
+                      "value": "NGN"
+                    },
+                    {
+                      "key": "country",
+                      "value": "NG"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"code\": \"string\",\n      \"swiftCode\": \"string\",\n      \"bic\": \"string\",\n      \"country\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"code\": \"string\",\n      \"swiftCode\": \"string\",\n      \"bic\": \"string\",\n      \"country\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.fincra.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0ea98668-9d63-4793-a8f4-645abd406ece",
+    "name": "Fincra Account Resolution Banks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.\n\nContact Support:\n Name: Fincra Support\n Email: support@fincra.com",
+      "type": "text/plain"
+    }
+  }
+}

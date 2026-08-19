@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Fincra Account Resolution Beneficiaries API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Beneficiaries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List beneficiaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/:businessId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List beneficiaries"
+        },
+        {
+          "info": {
+            "name": "Create a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/:businessId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a beneficiary"
+        },
+        {
+          "info": {
+            "name": "Fetch a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/:businessId/:beneficiaryId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "beneficiaryId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetch a beneficiary"
+        },
+        {
+          "info": {
+            "name": "Update a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/:businessId/:beneficiaryId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "beneficiaryId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a beneficiary"
+        },
+        {
+          "info": {
+            "name": "Delete a beneficiary",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.fincra.com/profile/beneficiaries/business/:businessId/:beneficiaryId",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "beneficiaryId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a beneficiary"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

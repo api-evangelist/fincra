@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Fincra Account Resolution Collections API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate a charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/checkout/charges",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate a direct charge to collect a payment via card, bank transfer, mobile money, EFT, or pay-attitude."
+        },
+        {
+          "info": {
+            "name": "Authorize a charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/checkout/charges/authorize",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authorize a previously initiated charge (e.g. with an OTP or PIN)."
+        },
+        {
+          "info": {
+            "name": "Get a charge by reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/checkout/charges/:reference",
+            "params": [
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a charge by reference"
+        },
+        {
+          "info": {
+            "name": "Verify a charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/checkout/charges/verify/:reference",
+            "params": [
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Verify a charge"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

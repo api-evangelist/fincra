@@ -1,0 +1,610 @@
+{
+  "item": [
+    {
+      "id": "26283571-3d04-49e7-bc6c-446f79be658b",
+      "name": "Payouts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "73aae5ab-f2f3-4d7a-8620-9c18d36c8a42",
+          "name": "Initiate a payout",
+          "request": {
+            "name": "Initiate a payout",
+            "description": {
+              "content": "Disburse funds to a bank account, mobile money wallet, or another Fincra account. Cross-currency payouts require a `quoteReference`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                "payouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"destinationCurrency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"business\": \"<string>\",\n  \"description\": \"<string>\",\n  \"customerReference\": \"<string>\",\n  \"paymentDestination\": \"<string>\",\n  \"beneficiary\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"accountHolderName\": \"<string>\",\n    \"type\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"bankCode\": \"<string>\"\n  },\n  \"paymentScheme\": \"<string>\",\n  \"quoteReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "49f8fef5-7570-4612-830e-2293ea565018",
+              "name": "Payout initiated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"destinationCurrency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"business\": \"<string>\",\n  \"description\": \"<string>\",\n  \"customerReference\": \"<string>\",\n  \"paymentDestination\": \"<string>\",\n  \"beneficiary\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"accountHolderName\": \"<string>\",\n    \"type\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"bankCode\": \"<string>\"\n  },\n  \"paymentScheme\": \"<string>\",\n  \"quoteReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"reference\": \"string\",\n    \"customerReference\": \"string\",\n    \"status\": \"failed\",\n    \"amount\": 1761.3884999106876,\n    \"sourceCurrency\": \"string\",\n    \"destinationCurrency\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9a75122-2f61-48a9-be64-f4e8710a9f79",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"destinationCurrency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"business\": \"<string>\",\n  \"description\": \"<string>\",\n  \"customerReference\": \"<string>\",\n  \"paymentDestination\": \"<string>\",\n  \"beneficiary\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"accountHolderName\": \"<string>\",\n    \"type\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"bankCode\": \"<string>\"\n  },\n  \"paymentScheme\": \"<string>\",\n  \"quoteReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e17d51af-e814-44bf-845d-85db0eeb0426",
+          "name": "Get all payouts",
+          "request": {
+            "name": "Get all payouts",
+            "description": {},
+            "url": {
+              "path": [
+                "disbursements",
+                "payouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "10"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50d30ec8-d4ae-4f89-ac44-0c513e957cf4",
+              "name": "List of payouts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"data\": [\n    {\n      \"success\": false,\n      \"message\": \"string\",\n      \"data\": {\n        \"reference\": \"string\",\n        \"customerReference\": \"string\",\n        \"status\": \"failed\",\n        \"amount\": 9843.20651434998,\n        \"sourceCurrency\": \"string\",\n        \"destinationCurrency\": \"string\"\n      }\n    },\n    {\n      \"success\": false,\n      \"message\": \"string\",\n      \"data\": {\n        \"reference\": \"string\",\n        \"customerReference\": \"string\",\n        \"status\": \"failed\",\n        \"amount\": 8962.890169851009,\n        \"sourceCurrency\": \"string\",\n        \"destinationCurrency\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "efec9dea-698d-4b62-be9f-b28e16320076",
+          "name": "Verify payout status by transaction reference",
+          "request": {
+            "name": "Verify payout status by transaction reference",
+            "description": {},
+            "url": {
+              "path": [
+                "disbursements",
+                "payouts",
+                "reference",
+                ":transactionReference"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transactionReference",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "98408c94-30bf-4998-b2ad-6255f46d33e0",
+              "name": "Payout status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts",
+                    "reference",
+                    ":transactionReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"reference\": \"string\",\n    \"customerReference\": \"string\",\n    \"status\": \"failed\",\n    \"amount\": 1761.3884999106876,\n    \"sourceCurrency\": \"string\",\n    \"destinationCurrency\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac109f15-2c51-44c8-8986-68724d9be39f",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts",
+                    "reference",
+                    ":transactionReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transactionReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d4e3934e-3352-4079-8c3e-a82b43918ddf",
+          "name": "Verify payout status by customer reference",
+          "request": {
+            "name": "Verify payout status by customer reference",
+            "description": {},
+            "url": {
+              "path": [
+                "disbursements",
+                "payouts",
+                "customer-reference",
+                ":customerReference"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerReference",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5251d430-18d6-4633-9eba-5f52fd589fdc",
+              "name": "Payout status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts",
+                    "customer-reference",
+                    ":customerReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"string\",\n  \"data\": {\n    \"reference\": \"string\",\n    \"customerReference\": \"string\",\n    \"status\": \"failed\",\n    \"amount\": 1761.3884999106876,\n    \"sourceCurrency\": \"string\",\n    \"destinationCurrency\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65695575-d3e8-44cb-aa04-1bbf582bd5e3",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    "payouts",
+                    "customer-reference",
+                    ":customerReference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.fincra.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "88e507de-4179-4403-b9c0-9cbddce0f75a",
+    "name": "Fincra Account Resolution Payouts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.\n\nContact Support:\n Name: Fincra Support\n Email: support@fincra.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "item": [
+    {
+      "id": "2239924f-6afa-4949-b85b-b5b25b16a660",
+      "name": "Quotes",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0abe78f2-5ff0-4619-9656-b1b1a78fdf5e",
+          "name": "Generate a quote",
+          "request": {
+            "name": "Generate a quote",
+            "description": {
+              "content": "Generate a time-bound FX quote for a conversion or cross-currency payout. Quotes are valid for 30 seconds on cross-currency flows.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "quotes",
+                "generate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"destinationCurrency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"action\": \"<string>\",\n  \"transactionType\": \"<string>\",\n  \"business\": \"<string>\",\n  \"paymentDestination\": \"<string>\",\n  \"feeBearer\": \"<string>\",\n  \"paymentScheme\": \"<string>\",\n  \"beneficiaryType\": \"<string>\",\n  \"delay\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "49ad4316-ac4a-45ae-95b0-cbf410d47773",
+              "name": "Quote generated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"destinationCurrency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"action\": \"<string>\",\n  \"transactionType\": \"<string>\",\n  \"business\": \"<string>\",\n  \"paymentDestination\": \"<string>\",\n  \"feeBearer\": \"<string>\",\n  \"paymentScheme\": \"<string>\",\n  \"beneficiaryType\": \"<string>\",\n  \"delay\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"data\": {\n    \"reference\": \"string\",\n    \"rate\": 230.36881400716692,\n    \"sourceCurrency\": \"string\",\n    \"destinationCurrency\": \"string\",\n    \"expiresAt\": \"2016-03-23T01:40:05.854Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "380616f0-a6e8-4f96-b6c6-4f42a1735518",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceCurrency\": \"<string>\",\n  \"destinationCurrency\": \"<string>\",\n  \"amount\": \"<string>\",\n  \"action\": \"<string>\",\n  \"transactionType\": \"<string>\",\n  \"business\": \"<string>\",\n  \"paymentDestination\": \"<string>\",\n  \"feeBearer\": \"<string>\",\n  \"paymentScheme\": \"<string>\",\n  \"beneficiaryType\": \"<string>\",\n  \"delay\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.fincra.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8b08a87a-f5c0-449b-8534-5330cff33c1f",
+    "name": "Fincra Account Resolution Quotes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.\n\nContact Support:\n Name: Fincra Support\n Email: support@fincra.com",
+      "type": "text/plain"
+    }
+  }
+}

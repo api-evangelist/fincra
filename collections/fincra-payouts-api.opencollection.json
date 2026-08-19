@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Fincra Account Resolution Payouts API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payouts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all payouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/disbursements/payouts",
+            "params": [
+              {
+                "name": "business",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get all payouts"
+        },
+        {
+          "info": {
+            "name": "Initiate a payout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/disbursements/payouts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Disburse funds to a bank account, mobile money wallet, or another Fincra account. Cross-currency payouts require a `quoteReference`."
+        },
+        {
+          "info": {
+            "name": "Verify payout status by transaction reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/disbursements/payouts/reference/:transactionReference",
+            "params": [
+              {
+                "name": "transactionReference",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Verify payout status by transaction reference"
+        },
+        {
+          "info": {
+            "name": "Verify payout status by customer reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.fincra.com/disbursements/payouts/customer-reference/:customerReference",
+            "params": [
+              {
+                "name": "customerReference",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Verify payout status by customer reference"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

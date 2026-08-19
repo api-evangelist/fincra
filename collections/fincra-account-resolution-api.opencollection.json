@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Fincra Account Resolution API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account Resolution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Resolve / verify a bank account number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fincra.com/core/accounts/resolve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify a bank account number and return the resolved account holder name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
