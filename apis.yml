@@ -24,6 +24,14 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/fincra.png
 tags:
 - Payments
 - Cross-Border
+- Collection
+- Payouts
+- FX
+- Fintech
+- Africa
+tags_raw:
+- Payments
+- Cross-Border
 - Collections
 - Payouts
 - FX
@@ -171,6 +179,8 @@ apis:
   humanURL: https://docs.fincra.com/docs/collections-overview
   baseURL: https://api.fincra.com
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
