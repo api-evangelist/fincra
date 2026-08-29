@@ -7,6 +7,18 @@ description: Fincra is an African cross-border payments infrastructure provider 
   currencies. The platform covers collections (virtual accounts and direct charges),
   payouts/disbursements to banks and mobile money, FX conversions with quotes,
   beneficiary management, and webhooks, secured with an api-key plus Bearer token.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
