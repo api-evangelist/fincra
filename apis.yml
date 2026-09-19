@@ -238,6 +238,8 @@ apis:
   humanURL: https://docs.fincra.com/docs/collections-overview
   baseURL: https://api.fincra.com
   tags:
+  - Conversion
+  tags_raw:
   - Conversions
   properties:
   - type: OpenAPI
