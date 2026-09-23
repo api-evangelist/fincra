@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Fincra Account Resolution Collections API
+  title: Fincra Collections API
   description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
   termsOfService: https://www.fincra.com/terms
   contact:
@@ -98,65 +98,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    ChargeResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            reference:
-              type: string
-            status:
-              type: string
-            amount:
-              type: number
-            currency:
-              type: string
-    AuthorizeChargeRequest:
-      type: object
-      required:
-      - reference
-      properties:
-        reference:
-          type: string
-        authorization:
-          type: object
-          properties:
-            mode:
-              type: string
-              enum:
-              - otp
-              - pin
-            otp:
-              type: string
-            pin:
-              type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
     ChargeRequest:
       type: object
       required:
@@ -214,6 +156,51 @@ components:
           type: string
         quoteReference:
           type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    AuthorizeChargeRequest:
+      type: object
+      required:
+      - reference
+      properties:
+        reference:
+          type: string
+        authorization:
+          type: object
+          properties:
+            mode:
+              type: string
+              enum:
+              - otp
+              - pin
+            otp:
+              type: string
+            pin:
+              type: string
+    ChargeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            status:
+              type: string
+            amount:
+              type: number
+            currency:
+              type: string
   parameters:
     Reference:
       name: reference
@@ -221,6 +208,19 @@ components:
       required: true
       schema:
         type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

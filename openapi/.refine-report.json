@@ -1,14 +1,7 @@
 {
   "provider": "fincra",
   "sources": [
-    "fincra-account-resolution-api-openapi.yml",
-    "fincra-banks-api-openapi.yml",
-    "fincra-beneficiaries-api-openapi.yml",
-    "fincra-collections-api-openapi.yml",
-    "fincra-conversions-api-openapi.yml",
-    "fincra-payouts-api-openapi.yml",
-    "fincra-quotes-api-openapi.yml",
-    "fincra-virtual-accounts-api-openapi.yml"
+    "_original/fincra-openapi.yml"
   ],
   "outputs": [
     "fincra-account-resolution-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "fincra-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "fincra-account-resolution-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-banks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-beneficiaries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-conversions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-payouts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-quotes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "fincra-virtual-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Fincra Account Resolution Payouts API
+  title: Fincra Payouts API
   description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
   termsOfService: https://www.fincra.com/terms
   contact:
@@ -103,42 +103,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    PayoutListResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PayoutResponse'
     PayoutRequest:
       type: object
       required:
@@ -191,14 +156,15 @@ components:
               type: string
             bankCode:
               type: string
-    Error:
+    PayoutListResponse:
       type: object
       properties:
         success:
           type: boolean
-          example: false
-        message:
-          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutResponse'
     PayoutResponse:
       type: object
       properties:
@@ -225,6 +191,40 @@ components:
               type: string
             destinationCurrency:
               type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Fincra Account Resolution Beneficiaries API
+  title: Fincra Beneficiaries API
   description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
   termsOfService: https://www.fincra.com/terms
   contact:
@@ -119,32 +119,13 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Beneficiary:
+    BeneficiaryResponse:
       type: object
       properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        accountHolderName:
-          type: string
-        email:
-          type: string
-        phoneNumber:
-          type: string
-        type:
-          type: string
-          enum:
-          - individual
-          - business
-        currency:
-          type: string
-        paymentDestination:
-          type: string
-        bank:
-          $ref: '#/components/schemas/BankDetails'
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Beneficiary'
     BeneficiaryRequest:
       type: object
       required:
@@ -191,14 +172,32 @@ components:
               type: string
             country:
               type: string
-    Error:
+    Beneficiary:
       type: object
       properties:
-        success:
-          type: boolean
-          example: false
-        message:
+        id:
           type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        accountHolderName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        type:
+          type: string
+          enum:
+          - individual
+          - business
+        currency:
+          type: string
+        paymentDestination:
+          type: string
+        bank:
+          $ref: '#/components/schemas/BankDetails'
     BankDetails:
       type: object
       properties:
@@ -210,26 +209,15 @@ components:
           type: string
         sortCode:
           type: string
-    BeneficiaryResponse:
+    Error:
       type: object
       properties:
         success:
           type: boolean
-        data:
-          $ref: '#/components/schemas/Beneficiary'
+          example: false
+        message:
+          type: string
   parameters:
-    BeneficiaryId:
-      name: beneficiaryId
-      in: path
-      required: true
-      schema:
-        type: string
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
     BusinessId:
       name: businessId
       in: path
@@ -242,6 +230,18 @@ components:
       schema:
         type: integer
         default: 1
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    BeneficiaryId:
+      name: beneficiaryId
+      in: path
+      required: true
+      schema:
+        type: string
   responses:
     NotFound:
       description: Resource not found

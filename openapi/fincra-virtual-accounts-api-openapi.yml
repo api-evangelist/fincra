@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Fincra Account Resolution Virtual Accounts API
+  title: Fincra Virtual Accounts API
   description: Fincra is an African cross-border payments infrastructure API for collections, payouts/disbursements, FX conversions, quotes, beneficiaries, virtual accounts, bank/account resolution, and webhooks. Requests are authenticated with an `api-key` header and a Bearer access token.
   termsOfService: https://www.fincra.com/terms
   contact:
@@ -111,26 +111,22 @@ paths:
                     items:
                       $ref: '#/components/schemas/Payin'
 components:
-  parameters:
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-    VirtualAccountId:
-      name: virtualAccountId
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
+    VirtualAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        accountNumber:
+          type: string
+        accountName:
+          type: string
+        bankName:
+          type: string
+        currency:
+          type: string
+        status:
+          type: string
     Payin:
       type: object
       properties:
@@ -149,36 +145,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    VirtualAccount:
-      type: object
-      properties:
-        id:
-          type: string
-        accountNumber:
-          type: string
-        accountName:
-          type: string
-        bankName:
-          type: string
-        currency:
-          type: string
-        status:
-          type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
-    VirtualAccountResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          $ref: '#/components/schemas/VirtualAccount'
     VirtualAccountRequest:
       type: object
       required:
@@ -208,6 +174,40 @@ components:
               type: string
         channel:
           type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    VirtualAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/VirtualAccount'
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    VirtualAccountId:
+      name: virtualAccountId
+      in: path
+      required: true
+      schema:
+        type: string
   responses:
     NotFound:
       description: Resource not found
