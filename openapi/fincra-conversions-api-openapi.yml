@@ -80,6 +80,15 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ConversionListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversionResponse'
     ConversionResponse:
       type: object
       properties:
@@ -100,6 +109,14 @@ components:
               type: string
             amount:
               type: number
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
     ConversionRequest:
       type: object
       required:
@@ -113,30 +130,20 @@ components:
           type: string
         customerReference:
           type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
-    ConversionListResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConversionResponse'
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    Reference:
-      name: reference
-      in: path
-      required: true
-      schema:
-        type: string
     Page:
       name: page
       in: query
@@ -149,19 +156,12 @@ components:
       schema:
         type: integer
         default: 10
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -127,24 +127,6 @@ components:
           type: string
         status:
           type: string
-    Payin:
-      type: object
-      properties:
-        id:
-          type: string
-        amount:
-          type: number
-        currency:
-          type: string
-        reference:
-          type: string
-        status:
-          type: string
-        sourceAccountName:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
     VirtualAccountRequest:
       type: object
       required:
@@ -174,6 +156,31 @@ components:
               type: string
         channel:
           type: string
+    VirtualAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/VirtualAccount'
+    Payin:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        reference:
+          type: string
+        status:
+          type: string
+        sourceAccountName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:
@@ -182,13 +189,19 @@ components:
           example: false
         message:
           type: string
-    VirtualAccountResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          $ref: '#/components/schemas/VirtualAccount'
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     Page:
       name: page
@@ -208,19 +221,6 @@ components:
       required: true
       schema:
         type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

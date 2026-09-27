@@ -104,6 +104,15 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    PayoutListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutResponse'
     PayoutRequest:
       type: object
       required:
@@ -156,15 +165,6 @@ components:
               type: string
             bankCode:
               type: string
-    PayoutListResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PayoutResponse'
     PayoutResponse:
       type: object
       properties:
@@ -199,6 +199,19 @@ components:
           example: false
         message:
           type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     Page:
       name: page
@@ -212,19 +225,6 @@ components:
       schema:
         type: integer
         default: 10
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
