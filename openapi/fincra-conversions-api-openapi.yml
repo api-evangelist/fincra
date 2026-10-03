@@ -79,6 +79,38 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     ConversionListResponse:
       type: object
@@ -89,26 +121,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ConversionResponse'
-    ConversionResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            reference:
-              type: string
-            customerReference:
-              type: string
-            status:
-              type: string
-            sourceCurrency:
-              type: string
-            destinationCurrency:
-              type: string
-            amount:
-              type: number
     Error:
       type: object
       properties:
@@ -130,38 +142,26 @@ components:
           type: string
         customerReference:
           type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
-    Reference:
-      name: reference
-      in: path
-      required: true
-      schema:
-        type: string
+    ConversionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+            amount:
+              type: number
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

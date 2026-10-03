@@ -42,41 +42,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    QuoteResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            reference:
-              type: string
-            rate:
-              type: number
-            sourceCurrency:
-              type: string
-            destinationCurrency:
-              type: string
-            expiresAt:
-              type: string
-              format: date-time
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
     QuoteRequest:
       type: object
       required:
@@ -110,6 +76,40 @@ components:
           type: string
         delay:
           type: boolean
+    QuoteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            rate:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

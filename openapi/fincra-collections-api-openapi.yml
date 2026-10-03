@@ -98,33 +98,46 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ChargeResponse:
+    AuthorizeChargeRequest:
       type: object
+      required:
+      - reference
       properties:
-        success:
-          type: boolean
-        message:
+        reference:
           type: string
-        data:
+        authorization:
           type: object
           properties:
-            reference:
+            mode:
               type: string
-            status:
+              enum:
+              - otp
+              - pin
+            otp:
               type: string
-            amount:
-              type: number
-            currency:
+            pin:
               type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
     ChargeRequest:
       type: object
       required:
@@ -182,45 +195,32 @@ components:
           type: string
         quoteReference:
           type: string
-    AuthorizeChargeRequest:
+    Error:
       type: object
-      required:
-      - reference
       properties:
-        reference:
+        success:
+          type: boolean
+          example: false
+        message:
           type: string
-        authorization:
+    ChargeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
           type: object
           properties:
-            mode:
+            reference:
               type: string
-              enum:
-              - otp
-              - pin
-            otp:
+            status:
               type: string
-            pin:
+            amount:
+              type: number
+            currency:
               type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Reference:
-      name: reference
-      in: path
-      required: true
-      schema:
-        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
