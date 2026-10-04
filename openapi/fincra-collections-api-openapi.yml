@@ -98,6 +98,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     Reference:
       name: reference
@@ -105,39 +118,7 @@ components:
       required: true
       schema:
         type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    AuthorizeChargeRequest:
-      type: object
-      required:
-      - reference
-      properties:
-        reference:
-          type: string
-        authorization:
-          type: object
-          properties:
-            mode:
-              type: string
-              enum:
-              - otp
-              - pin
-            otp:
-              type: string
-            pin:
-              type: string
     ChargeRequest:
       type: object
       required:
@@ -195,14 +176,6 @@ components:
           type: string
         quoteReference:
           type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
     ChargeResponse:
       type: object
       properties:
@@ -220,6 +193,33 @@ components:
             amount:
               type: number
             currency:
+              type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    AuthorizeChargeRequest:
+      type: object
+      required:
+      - reference
+      properties:
+        reference:
+          type: string
+        authorization:
+          type: object
+          properties:
+            mode:
+              type: string
+              enum:
+              - otp
+              - pin
+            otp:
+              type: string
+            pin:
               type: string
   securitySchemes:
     ApiKeyAuth:

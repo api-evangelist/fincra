@@ -111,69 +111,20 @@ paths:
                     items:
                       $ref: '#/components/schemas/Payin'
 components:
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
-    VirtualAccountId:
-      name: virtualAccountId
-      in: path
-      required: true
-      schema:
-        type: string
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Authentication failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    VirtualAccount:
-      type: object
-      properties:
-        id:
-          type: string
-        accountNumber:
-          type: string
-        accountName:
-          type: string
-        bankName:
-          type: string
-        currency:
-          type: string
-        status:
-          type: string
-    VirtualAccountResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          $ref: '#/components/schemas/VirtualAccount'
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
     VirtualAccountRequest:
       type: object
       required:
@@ -203,6 +154,29 @@ components:
               type: string
         channel:
           type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    VirtualAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        accountNumber:
+          type: string
+        accountName:
+          type: string
+        bankName:
+          type: string
+        currency:
+          type: string
+        status:
+          type: string
     Payin:
       type: object
       properties:
@@ -221,6 +195,32 @@ components:
         createdAt:
           type: string
           format: date-time
+    VirtualAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/VirtualAccount'
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    VirtualAccountId:
+      name: virtualAccountId
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

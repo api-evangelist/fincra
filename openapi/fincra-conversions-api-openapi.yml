@@ -79,6 +79,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     Reference:
       name: reference
@@ -98,20 +111,15 @@ components:
       schema:
         type: integer
         default: 10
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
     ConversionListResponse:
       type: object
       properties:
@@ -121,27 +129,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ConversionResponse'
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
-    ConversionRequest:
-      type: object
-      required:
-      - business
-      - quoteReference
-      - customerReference
-      properties:
-        business:
-          type: string
-        quoteReference:
-          type: string
-        customerReference:
-          type: string
     ConversionResponse:
       type: object
       properties:
@@ -162,6 +149,19 @@ components:
               type: string
             amount:
               type: number
+    ConversionRequest:
+      type: object
+      required:
+      - business
+      - quoteReference
+      - customerReference
+      properties:
+        business:
+          type: string
+        quoteReference:
+          type: string
+        customerReference:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -43,20 +43,6 @@ paths:
           description: Could not resolve account
 components:
   schemas:
-    ResolveAccountResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            accountNumber:
-              type: string
-            accountName:
-              type: string
-            bankCode:
-              type: string
     ResolveAccountRequest:
       type: object
       required:
@@ -76,6 +62,20 @@ components:
           enum:
           - nuban
           - iban
+    ResolveAccountResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            accountNumber:
+              type: string
+            accountName:
+              type: string
+            bankCode:
+              type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

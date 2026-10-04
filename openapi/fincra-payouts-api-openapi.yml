@@ -103,16 +103,54 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    PayoutListResponse:
+    PayoutResponse:
       type: object
       properties:
         success:
           type: boolean
+        message:
+          type: string
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PayoutResponse'
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+              enum:
+              - processing
+              - successful
+              - failed
+            amount:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
     PayoutRequest:
       type: object
       required:
@@ -165,40 +203,15 @@ components:
               type: string
             bankCode:
               type: string
-    PayoutResponse:
+    PayoutListResponse:
       type: object
       properties:
         success:
           type: boolean
-        message:
-          type: string
         data:
-          type: object
-          properties:
-            reference:
-              type: string
-            customerReference:
-              type: string
-            status:
-              type: string
-              enum:
-              - processing
-              - successful
-              - failed
-            amount:
-              type: number
-            sourceCurrency:
-              type: string
-            destinationCurrency:
-              type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutResponse'
   parameters:
     Page:
       name: page
@@ -212,19 +225,6 @@ components:
       schema:
         type: integer
         default: 10
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
