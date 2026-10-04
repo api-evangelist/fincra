@@ -34,6 +34,9 @@ accessModel:
   generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/fincra.png
+x-docs-platform: readme
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
 - Payments
 - Cross-Border
@@ -42,6 +45,7 @@ tags:
 - FX
 - Fintech
 - Africa
+- Cross-Border Payments
 tags_raw:
 - Payments
 - Cross-Border
@@ -50,6 +54,7 @@ tags_raw:
 - FX
 - Fintech
 - Africa
+- Cross-Border Payments
 created: '2026-06-21'
 modified: '2026-06-21'
 specificationVersion: '0.23'
