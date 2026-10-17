@@ -99,26 +99,37 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    Reference:
-      name: reference
-      in: path
-      required: true
-      schema:
-        type: string
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    ChargeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            reference:
+              type: string
+            status:
+              type: string
+            amount:
+              type: number
+            currency:
+              type: string
     ChargeRequest:
       type: object
       required:
@@ -176,24 +187,6 @@ components:
           type: string
         quoteReference:
           type: string
-    ChargeResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            reference:
-              type: string
-            status:
-              type: string
-            amount:
-              type: number
-            currency:
-              type: string
     Error:
       type: object
       properties:
@@ -221,6 +214,13 @@ components:
               type: string
             pin:
               type: string
+  parameters:
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

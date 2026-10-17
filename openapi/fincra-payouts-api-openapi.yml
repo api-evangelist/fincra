@@ -104,53 +104,41 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
   schemas:
-    PayoutResponse:
+    PayoutListResponse:
       type: object
       properties:
         success:
           type: boolean
-        message:
-          type: string
         data:
-          type: object
-          properties:
-            reference:
-              type: string
-            customerReference:
-              type: string
-            status:
-              type: string
-              enum:
-              - processing
-              - successful
-              - failed
-            amount:
-              type: number
-            sourceCurrency:
-              type: string
-            destinationCurrency:
-              type: string
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/PayoutResponse'
     PayoutRequest:
       type: object
       required:
@@ -203,28 +191,40 @@ components:
               type: string
             bankCode:
               type: string
-    PayoutListResponse:
+    Error:
       type: object
       properties:
         success:
           type: boolean
+          example: false
+        message:
+          type: string
+    PayoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PayoutResponse'
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
+          type: object
+          properties:
+            reference:
+              type: string
+            customerReference:
+              type: string
+            status:
+              type: string
+              enum:
+              - processing
+              - successful
+              - failed
+            amount:
+              type: number
+            sourceCurrency:
+              type: string
+            destinationCurrency:
+              type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -119,26 +119,54 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    PerPage:
+      name: perPage
+      in: query
+      schema:
+        type: integer
+        default: 10
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    BeneficiaryId:
+      name: beneficiaryId
+      in: path
+      required: true
+      schema:
+        type: string
+    BusinessId:
+      name: businessId
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
-    Error:
+    BankDetails:
       type: object
       properties:
-        success:
-          type: boolean
-          example: false
-        message:
+        name:
+          type: string
+        code:
+          type: string
+        accountNumber:
+          type: string
+        sortCode:
           type: string
     BeneficiaryResponse:
       type: object
@@ -147,32 +175,6 @@ components:
           type: boolean
         data:
           $ref: '#/components/schemas/Beneficiary'
-    Beneficiary:
-      type: object
-      properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        accountHolderName:
-          type: string
-        email:
-          type: string
-        phoneNumber:
-          type: string
-        type:
-          type: string
-          enum:
-          - individual
-          - business
-        currency:
-          type: string
-        paymentDestination:
-          type: string
-        bank:
-          $ref: '#/components/schemas/BankDetails'
     BeneficiaryRequest:
       type: object
       required:
@@ -219,42 +221,40 @@ components:
               type: string
             country:
               type: string
-    BankDetails:
+    Beneficiary:
       type: object
       properties:
-        name:
+        id:
           type: string
-        code:
+        firstName:
           type: string
-        accountNumber:
+        lastName:
           type: string
-        sortCode:
+        accountHolderName:
           type: string
-  parameters:
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-    BeneficiaryId:
-      name: beneficiaryId
-      in: path
-      required: true
-      schema:
-        type: string
-    PerPage:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
-    BusinessId:
-      name: businessId
-      in: path
-      required: true
-      schema:
-        type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        type:
+          type: string
+          enum:
+          - individual
+          - business
+        currency:
+          type: string
+        paymentDestination:
+          type: string
+        bank:
+          $ref: '#/components/schemas/BankDetails'
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

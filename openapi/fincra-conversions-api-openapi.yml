@@ -80,55 +80,38 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Authentication failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    Reference:
-      name: reference
-      in: path
-      required: true
-      schema:
-        type: string
-    Page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
     PerPage:
       name: perPage
       in: query
       schema:
         type: integer
         default: 10
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: false
-        message:
-          type: string
-    ConversionListResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConversionResponse'
     ConversionResponse:
       type: object
       properties:
@@ -161,6 +144,23 @@ components:
         quoteReference:
           type: string
         customerReference:
+          type: string
+    ConversionListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversionResponse'
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
           type: string
   securitySchemes:
     ApiKeyAuth:
