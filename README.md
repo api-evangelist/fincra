@@ -1,4 +1,4 @@
-# Fincra (fincra)
+# Fincra
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,200 +66,129 @@
 
 Fincra is an African cross-border payments infrastructure provider whose REST API lets businesses collect, hold, convert, and disburse money across multiple currencies. The platform covers collections (virtual accounts and direct charges), payouts/disbursements to banks and mobile money, FX conversions with quotes, beneficiary management, and webhooks, secured with an api-key plus Bearer token.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/fincra/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/fincra/refs/heads/main/apis.yml)
+**Areas:** Payments · Cross-Border · Collection · Payouts · Foreign Exchange · Fintech · Africa · Cross-Border Payments
 
-## Tags
+## Fincra on APIs.io
 
-- Payments
-- Cross-Border
-- Collections
-- Payouts
-- FX
-- Fintech
-- Africa
+Everything profiled for Fincra is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/fincra/](https://apis.io/providers/fincra/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (8)
 
-- **Created:** 2026-06-21
-- **Modified:** 2026-06-21
+- [Fincra Account Resolution API](https://apis.io/apis/fincra/fincra-account-resolution-api/) — The Account Resolution API from Fincra — 1 operation(s) for account resolution.
+- [Fincra Banks API](https://apis.io/apis/fincra/fincra-banks-api/) — The Banks API from Fincra — 1 operation(s) for banks.
+- [Fincra Beneficiaries API](https://apis.io/apis/fincra/fincra-beneficiaries-api/) — The Beneficiaries API from Fincra — 2 operation(s) for beneficiaries.
+- [Fincra Collections API](https://apis.io/apis/fincra/fincra-collections-api/) — The Collections API from Fincra — 4 operation(s) for collections.
+- [Fincra Conversions API](https://apis.io/apis/fincra/fincra-conversions-api/) — The Conversions API from Fincra — 3 operation(s) for conversions.
+- [Fincra Payouts API](https://apis.io/apis/fincra/fincra-payouts-api/) — The Payouts API from Fincra — 3 operation(s) for payouts.
+- [Fincra Quotes API](https://apis.io/apis/fincra/fincra-quotes-api/) — The Quotes API from Fincra — 1 operation(s) for quotes.
+- [Fincra Virtual Accounts API](https://apis.io/apis/fincra/fincra-virtual-accounts-api/) — The Virtual Accounts API from Fincra — 4 operation(s) for virtual accounts.
 
-## APIs
+### Published properties
 
-### Fincra Collections API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Receive payments from customers via virtual account bank transfers and the direct charge API (card, bank transfer, mobile money, EFT, pay-attitude), including charge authorization, verification, and deposit lookups.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.fincra.com/docs/collections-overview](https://docs.fincra.com/docs/collections-overview)
-- **Base URL:** `https://api.fincra.com`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Fincra Agentic Access](https://apis.io/agentic-access/fincra/fincra-agentic-access/)
 
-- Collections
-- Pay-ins
-- Charges
+#### Collections (9)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.fincra.com/docs/collections-overview)
-- [API Reference](https://docs.fincra.com/reference/initiate-a-charge)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Fincra API](https://apis.io/collections/fincra/open-fincra/)
+- [Fincra Account Resolution API](https://apis.io/collections/fincra/open-fincra-account-resolution-api/)
+- [Fincra Account Resolution Banks API](https://apis.io/collections/fincra/open-fincra-banks-api/)
+- [Fincra Account Resolution Beneficiaries API](https://apis.io/collections/fincra/open-fincra-beneficiaries-api/)
+- [Fincra Account Resolution Collections API](https://apis.io/collections/fincra/open-fincra-collections-api/)
+- [Fincra Account Resolution Conversions API](https://apis.io/collections/fincra/open-fincra-conversions-api/)
+- [Fincra Account Resolution Payouts API](https://apis.io/collections/fincra/open-fincra-payouts-api/)
+- [Fincra Account Resolution Quotes API](https://apis.io/collections/fincra/open-fincra-quotes-api/)
+- [Fincra Account Resolution Virtual Accounts API](https://apis.io/collections/fincra/open-fincra-virtual-accounts-api/)
 
-### Fincra Payouts / Disbursements API
+#### Security (2)
 
-Disburse funds to bank accounts, mobile money wallets, and other Fincra accounts in same-currency or cross-currency flows, with payout status lookups by transaction reference or customer reference.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://docs.fincra.com/docs/payout-overview](https://docs.fincra.com/docs/payout-overview)
-- **Base URL:** `https://api.fincra.com`
+- [Fincra Authentication](https://apis.io/security/fincra/fincra-authentication/)
+- [Fincra Domain Security](https://apis.io/security/fincra/fincra-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Payouts
-- Disbursements
-- Transfers
+Published plans, tiers and prices.
 
-#### Properties
+- [Fincra Plans Pricing](https://apis.io/plans/fincra/fincra-plans-pricing/)
 
-- [Documentation](https://docs.fincra.com/docs/payout-overview)
-- [API Reference](https://docs.fincra.com/reference/initiate-payout)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Fincra Conversions / FX API
+Published request limits.
 
-Convert balances between supported currencies using a quote reference, list conversions, and verify conversion status. FX quotes are valid for 30 seconds on cross-currency flows.
+- [Fincra Rate Limits](https://apis.io/rate-limits/fincra/fincra-rate-limits/)
 
-- **Human URL:** [https://docs.fincra.com/docs/conversions](https://docs.fincra.com/docs/conversions)
-- **Base URL:** `https://api.fincra.com`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Conversions
-- FX
-- Currency Exchange
+- [Fincra Finops](https://apis.io/finops/fincra/fincra-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://docs.fincra.com/docs/conversions)
-- [API Reference](https://docs.fincra.com/reference/initiate-currency-conversion)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Fincra Quotes API
-
-Generate a time-bound FX quote for a conversion or cross-currency payout; the returned quote reference is passed into the conversion or payout request.
-
-- **Human URL:** [https://docs.fincra.com/reference/generate-quote](https://docs.fincra.com/reference/generate-quote)
-- **Base URL:** `https://api.fincra.com`
-
-#### Tags
-
-- Quotes
-- FX Rates
-- Pricing
-
-#### Properties
-
-- [Documentation](https://docs.fincra.com/docs/conversions)
-- [API Reference](https://docs.fincra.com/reference/generate-quote)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Fincra Beneficiaries API
-
-Create, list, fetch, update, and delete reusable payout beneficiaries scoped to a business, capturing bank, currency, and payment-destination details.
-
-- **Human URL:** [https://docs.fincra.com/reference/create-a-beneficiary](https://docs.fincra.com/reference/create-a-beneficiary)
-- **Base URL:** `https://api.fincra.com`
-
-#### Tags
-
-- Beneficiaries
-- Recipients
-
-#### Properties
-
-- [Documentation](https://docs.fincra.com/docs/beneficiaries)
-- [API Reference](https://docs.fincra.com/reference/create-a-beneficiary)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Fincra Virtual Accounts API
-
-Request and manage NGN and foreign-currency virtual accounts that let merchants receive bank-transfer payments, fetch account information, and list payins/deposits made into an account.
-
-- **Human URL:** [https://docs.fincra.com/docs/fincra-virtual-accounts](https://docs.fincra.com/docs/fincra-virtual-accounts)
-- **Base URL:** `https://api.fincra.com`
-
-#### Tags
-
-- Virtual Accounts
-- Multicurrency
-- Accounts
-
-#### Properties
-
-- [Documentation](https://docs.fincra.com/docs/fincra-virtual-accounts)
-- [API Reference](https://docs.fincra.com/reference/ngn-virtual-account-api)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Fincra Banks & Account Resolution API
-
-List supported banks and mobile money providers and resolve/verify a bank account number to its account holder name before disbursing.
-
-- **Human URL:** [https://docs.fincra.com/reference/list-banks](https://docs.fincra.com/reference/list-banks)
-- **Base URL:** `https://api.fincra.com`
-
-#### Tags
-
-- Banks
-- Account Verification
-- Utilities
-
-#### Properties
-
-- [Documentation](https://docs.fincra.com/docs/verify-iban-and-account-numbers)
-- [API Reference](https://docs.fincra.com/reference/list-banks)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/fincra.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/fincra.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Fincra Webhooks
-
-Signed event notifications delivered to a merchant-configured webhook URL for collections, payouts, conversions, and virtual account events, validated via an HMAC signature header.
-
-- **Human URL:** [https://docs.fincra.com/docs/webhooks](https://docs.fincra.com/docs/webhooks)
-- **Base URL:** `https://api.fincra.com`
-
-#### Tags
-
-- Webhooks
-- Events
-- Notifications
-
-#### Properties
-
-- [Documentation](https://docs.fincra.com/docs/webhooks)
-- [Documentation](https://docs.fincra.com/docs/securing-your-webhook)
-- [OpenAPI](openapi/fincra-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/fincra)
 - [Website](https://www.fincra.com)
 - [Documentation](https://docs.fincra.com)
-- [Plans](plans/fincra-plans-pricing.yml)
-- [Rate Limits](rate-limits/fincra-rate-limits.yml)
-- [Fin Ops](finops/fincra-finops.yml)
+- [Blog](https://blog.fincra.com/feed/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 25.1** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 48.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 5.3 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/fincra/](https://apis.io/providers/fincra/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Fincra: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/fincra/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
